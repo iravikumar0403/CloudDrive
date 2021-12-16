@@ -1,15 +1,23 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useAuthProvider } from "../context/AuthProvider";
 
 const Login = () => {
 
     const navigate = useNavigate();
+    const { currentUser, signin } = useAuthProvider();
+
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
+
+    
+    if(currentUser){
+      return <Navigate replace to="/dashboard" />
+    }
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -23,10 +31,14 @@ const Login = () => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        console.log({
-            email,
-            password
-        })
+        if(email && password){
+          signin(email, password)
+          .then(()=>{
+            navigate("/dashboard")
+          }).catch((err)=>{
+            console.log(err)
+          })
+        }
     }
 
   return (
@@ -58,7 +70,7 @@ const Login = () => {
           <p className="float-end m-0 p-2">Forgot Password? <span role="button" className="text-secondary">Click here</span></p>
           <button type="submit" className="btn btn-primary">Login</button>
           <p className="m-0 pt-4 text-center" onClick={()=>navigate("/register")}>
-              Don't have an account with us yet? <span role="button" className="text-secondary">Login</span>
+              Don't have an account with us yet? <span role="button" className="text-secondary">Register</span>
           </p>
         </form>
       </div>

@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useAuthProvider } from "../context/AuthProvider";
 
 const Register = () => {
 
+    const { currentUser, signup } = useAuthProvider();
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
@@ -11,6 +13,10 @@ const Register = () => {
 
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
+
+    if(currentUser){
+      return <Navigate replace to="/dashboard" />
+    }
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -23,15 +29,22 @@ const Register = () => {
     }
 
     const handleConfirmPasswordChange = (e) => {
-        setPassword(e.target.value);
+        setConfirmPassword(e.target.value);
     }
 
     const handleFormSubmit = (e) => {
-        e.preventDefault();
-        console.log({
-            email,
-            password
+      e.preventDefault();
+        if(password === confirmPassword){
+        signup(email, password)
+        .then(()=>{
+          navigate("/dashboard")
         })
+        .catch(err => {
+          console.log(err)
+        })
+        }else{
+          setPasswordError("Password does not match")
+        }
     }
 
   return (
