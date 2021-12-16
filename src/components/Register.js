@@ -7,6 +7,7 @@ const Register = () => {
     const { currentUser, signup } = useAuthProvider();
     const navigate = useNavigate();
 
+    const [loading, setLoading] = useState(false)
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -34,6 +35,7 @@ const Register = () => {
 
     const handleFormSubmit = (e) => {
       e.preventDefault();
+      setLoading(true)
         if(password === confirmPassword){
         signup(email, password)
         .then(()=>{
@@ -41,6 +43,7 @@ const Register = () => {
         })
         .catch(err => {
           console.log(err)
+          setLoading(false)
         })
         }else{
           setPasswordError("Password does not match")
@@ -85,7 +88,10 @@ const Register = () => {
             <div className="invalid-feedback">{passwordError}</div>
           </div>
           <p className="float-end m-0 p-2">Forgot Password? <span role="button" className="text-secondary">Click here</span></p>
-          <button type="submit" className="btn btn-primary">Register</button>
+          <button type="submit" class="btn btn-primary" disabled={loading}>
+              Register
+            { loading && <span class="ms-3 spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> }
+          </button>
           <p className="m-0 pt-4 text-center" onClick={()=>navigate("/")}>
               Already have an account? <span role="button" className="text-secondary">Login</span>
           </p>

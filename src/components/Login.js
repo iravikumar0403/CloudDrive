@@ -7,7 +7,7 @@ const Login = () => {
     const navigate = useNavigate();
     const { currentUser, signin } = useAuthProvider();
 
-
+    const [loading, setLoading] = useState(false)
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -31,12 +31,14 @@ const Login = () => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
+        setLoading(true)
         if(email && password){
           signin(email, password)
           .then(()=>{
             navigate("/dashboard")
           }).catch((err)=>{
             console.log(err)
+            setLoading(false)
           })
         }
     }
@@ -68,7 +70,10 @@ const Login = () => {
             <div className="invalid-feedback">{passwordError}</div>
           </div>
           <p className="float-end m-0 p-2">Forgot Password? <span role="button" className="text-secondary">Click here</span></p>
-          <button type="submit" className="btn btn-primary">Login</button>
+          <button type="submit" class="btn btn-primary" disabled={loading}>
+              Login
+            { loading && <span class="ms-3 spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> }
+          </button>
           <p className="m-0 pt-4 text-center" onClick={()=>navigate("/register")}>
               Don't have an account with us yet? <span role="button" className="text-secondary">Register</span>
           </p>

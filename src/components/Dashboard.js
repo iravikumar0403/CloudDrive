@@ -10,7 +10,7 @@ const Dashboard = () => {
     }
 
     return (
-        <div>
+        <div className='container'>
             <h1>Hello, {currentUser?.email}</h1>
         </div>
     )
