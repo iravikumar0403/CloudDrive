@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { format } from 'timeago.js'
 
 const FilesListing = ({ files }) => {
