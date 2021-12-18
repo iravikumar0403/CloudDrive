@@ -14,7 +14,7 @@ const FoldersListing = ({ folders }) => {
                         style={{maxWidth : "15em"}}
                         onClick={()=>navigate("/folder/" + folder.id)}
                     >
-                        <p className='fs-5'>{folder.name}</p>
+                        <p className='fs-5 text-truncate'>{folder.name}</p>
                         <span className='fs-6'>{folder.createdAt && format(new Date(folder.createdAt.toDate()).toISOString())}</span>
                     </div>
                 ))

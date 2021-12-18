@@ -16,7 +16,8 @@ const CreateNewFolder = () => {
     if(folderName){
       setLoading(true)
       try {
-          await addDoc(collection(db, "folders"), {
+        closeBtn.current.click();
+        await addDoc(collection(db, "folders"), {
               name: folderName,
               uid : currentUser.uid,
               parentFolder : folder_id || null,
@@ -25,7 +26,6 @@ const CreateNewFolder = () => {
           });
           setFolderName("")
           setLoading(false)
-          closeBtn.current.click();
       } catch (e) {
           console.error("Error adding document: ", e);
           setLoading(false)
