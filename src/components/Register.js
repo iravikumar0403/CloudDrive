@@ -39,7 +39,7 @@ const Register = () => {
         if(password === confirmPassword){
         signup(email, password)
         .then(()=>{
-          navigate("/dashboard")
+          navigate("/")
         })
         .catch(err => {
           console.log(err)
@@ -88,9 +88,9 @@ const Register = () => {
             <div className="invalid-feedback">{passwordError}</div>
           </div>
           <p className="float-end m-0 p-2">Forgot Password? <span role="button" className="text-secondary">Click here</span></p>
-          <button type="submit" class="btn btn-primary" disabled={loading}>
+          <button type="submit" className="btn btn-primary" disabled={loading}>
               Register
-            { loading && <span class="ms-3 spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> }
+            { loading && <span className="ms-3 spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> }
           </button>
           <p className="m-0 pt-4 text-center" onClick={()=>navigate("/")}>
               Already have an account? <span role="button" className="text-secondary">Login</span>

@@ -3,14 +3,19 @@ import { auth } from "../config/firebase-config";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 function useAuth() {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem("user#cd")));
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setCurrentUser(user);
+        localStorage.setItem("user#cd", JSON.stringify({
+          email : user.email,
+          uid : user.uid
+        }))
       } else {
         setCurrentUser(null);
+        localStorage.clear()
       }
     });
     return () => unsubscribe();
