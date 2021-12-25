@@ -42,7 +42,7 @@ const Dashboard = () => {
           <FilesListing files={files} />
         </div>
       )}
-      {( files.length === 0 && folders.length === 0 && !loadingFiles && !loadingFolders) && <p className="text-center fst-italic">Nothing here</p>}
+      {files.length === 0 && folders.length === 0 && !loadingFiles && !loadingFolders && <p className="text-center fst-italic">Nothing here</p>}
     </div>
   );
 };

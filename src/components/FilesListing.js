@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { format } from 'timeago.js'
 
 const FilesListing = ({ files }) => {
 
+    const navigate = useNavigate();
     function handleClick(file){
-        window.open(file.url)
+        navigate("/file/" + file.id, {state : file})
     }
 
     return (
@@ -17,7 +19,8 @@ const FilesListing = ({ files }) => {
                     style={{maxWidth : "15em"}}
                     onClick={()=>handleClick(file)}
                 >
-                    <p className='fs-5 text-truncate w-100'>{file.name}</p>
+                    <p className='fs-5 text-truncate w-100 mb-0'>{file.name}</p>
+                    <p className='fs-6 text-truncate w-100'>{file.name.substring(file.name.lastIndexOf(".") + 1)}</p>
                     <span className='fs-6'>{file.createdAt && format(new Date(file.createdAt.toDate()).toISOString())}</span>
                 </div>
             ))
