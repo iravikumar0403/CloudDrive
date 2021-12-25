@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuthProvider } from "../context/AuthProvider";
 import useFirestore from "../hooks/useFirestore";
+import Breadcrumb from "./Breadcrumb";
 import CreateNewFolder from "./CreateNewFolder";
 import FilesListing from "./FilesListing";
 import FoldersListing from "./FoldersListing";
 import UploadFile from "./UploadFile";
+import emptyIcon from "../assets/folder.svg"
 
 const Dashboard = () => {
   const { currentUser } = useAuthProvider();
@@ -36,7 +38,9 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="row">
-        <div className="col p-0 mb-3"></div>
+        <div className="col p-0">
+          <Breadcrumb />
+        </div>
       </div>
       {loadingFiles && loadingFolders && (
         <div className="d-flex justify-content-center align-items-center mt-5 pt-5">
@@ -68,7 +72,15 @@ const Dashboard = () => {
       ) : (
         <></>
       )}
-      {files.length === 0 && folders.length === 0 && !loadingFiles && !loadingFolders && <p className="text-center fst-italic">Nothing here</p>}
+      {(!loadingFiles && !loadingFolders) && 
+      ((files.length === 0 && folders.length === 0 && category === "All") ||
+      ((files.length === 0 && category === "Files") || (folders.length === 0 && category === "Folders"))
+      ) && 
+      <div className="text-center">
+        <img src={emptyIcon} alt=""/>
+        <p>Oops... There are no {category === "All" ? "files or folders" : category === "Files" ? "files": "folders"}</p>
+        {category === "Folders" ? <CreateNewFolder/> : <UploadFile/> }
+      </div> }
     </div>
   );
 };
