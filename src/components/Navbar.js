@@ -16,7 +16,7 @@ const Navbar = () => {
               <button className="btn dropdown-toggle" type="button" id="profile-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 <Avatar name={currentUser?.email} round size="30" textSizeRatio={2} />
               </button>
-              <ul className="dropdown-menu" aria-labelledby="profile-dropdown">
+              <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="profile-dropdown">
                 <li>
                   <button className="m-0 dropdown-item" onClick={() => signout()}>
                     Logout
