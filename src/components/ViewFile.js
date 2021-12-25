@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion/dist/framer-motion";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import FileViewer from "./FileViewer";
 
 const ViewFile = () => {
