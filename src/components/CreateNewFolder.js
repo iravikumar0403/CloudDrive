@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, doc, getDoc } from "firebase/firestore";
 import { db } from "../config/firebase-config";
 import { useAuthProvider } from "../context/AuthProvider";
 import { useParams } from "react-router-dom";
@@ -12,6 +12,30 @@ const CreateNewFolder = () => {
   const closeBtn = useRef("");
   const { folder_id } = useParams();
 
+  async function getPath(){
+    if(folder_id){
+      const docRef = doc(db, "folders", folder_id);
+      const docSnap = await getDoc(docRef);
+      console.log(docSnap.data().name, docSnap.id);
+      let path = docSnap.data().path
+      path.push({
+        id: docSnap.id,
+        name: docSnap.data().name
+      })
+      console.log(path)
+      return path
+    }else{
+      let path = [
+        {
+          id: "",
+          name: "Drive"
+        }
+      ]
+      console.log(path)
+      return path;
+    }
+  }
+
   async function createFolder(){
     if(folderName){
       setLoading(true)
@@ -22,6 +46,7 @@ const CreateNewFolder = () => {
               uid : currentUser.uid,
               parentFolder : folder_id || null,
               type: "folder",
+              path: await getPath(),
               createdAt : serverTimestamp(),
           });
           setFolderName("")
