@@ -87,10 +87,9 @@ const Login = () => {
             </span>
           </p>
           <div className="text-center mt-4">
-            <button className="btn btn-primary" disabled={loading} onClick={loginAsTestUser}>
+            { !loading && <button className="btn btn-primary" disabled={loading} onClick={loginAsTestUser}>
               Login as test user
-              {loading && <span className="ms-3 spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>}
-            </button>
+            </button>}
           </div>
         </form>
       </div>

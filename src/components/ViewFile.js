@@ -9,7 +9,7 @@ const ViewFile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (showToolbar) {
+    if (showToolbar && file.type !== "application/pdf") {
       setTimeout(() => {
         setShowToolbar(false);
       }, 2000);
