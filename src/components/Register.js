@@ -16,7 +16,7 @@ const Register = () => {
     const [passwordError, setPasswordError] = useState("");
 
     if(currentUser){
-      return <Navigate replace to="/dashboard" />
+      return <Navigate replace to="/" />
     }
 
     const handleEmailChange = (e) => {
@@ -31,22 +31,34 @@ const Register = () => {
 
     const handleConfirmPasswordChange = (e) => {
         setConfirmPassword(e.target.value);
+        if(passwordError !== "") setPasswordError("")
     }
 
     const handleFormSubmit = (e) => {
       e.preventDefault();
-      setLoading(true)
-        if(password === confirmPassword){
+      if(email && password && (password === confirmPassword)){
+        setLoading(true)
         signup(email, password)
         .then(()=>{
           navigate("/")
         })
         .catch(err => {
-          console.log(err)
+          console.log(err.message)
+          if(err.message === "Firebase: Error (auth/email-already-in-use)."){
+            setEmailError("Email already in use")
+          }else if(err.message === "Firebase: Password should be at least 6 characters (auth/weak-password)."){
+            setPasswordError("Password should be at least 6 characters")
+          }
           setLoading(false)
         })
         }else{
-          setPasswordError("Password does not match")
+          if(email === ""){
+            setEmailError("This field is required")
+          }else if(password === ""){
+            setPasswordError("This field is required")
+          }else if(password !== confirmPassword){
+            setPasswordError("Passwords do not match")
+          }
         }
     }
 
@@ -85,7 +97,6 @@ const Register = () => {
                 value={confirmPassword}
                 onChange={handleConfirmPasswordChange}
             />
-            <div className="invalid-feedback">{passwordError}</div>
           </div>
           <p className="float-end m-0 p-2">Forgot Password? <span role="button" className="text-secondary">Click here</span></p>
           <button type="submit" className="btn btn-primary" disabled={loading}>
