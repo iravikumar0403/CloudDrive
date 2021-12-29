@@ -14,7 +14,7 @@ const ViewFile = () => {
         setShowToolbar(false);
       }, 2000);
     }
-  }, [showToolbar]);
+  }, [file.type, showToolbar]);
 
   useEffect(() => {
     function enableToolbar() {
