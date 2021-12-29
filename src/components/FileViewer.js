@@ -10,12 +10,7 @@ const FileViewer = ({ file }) => {
     return (
       <div className="w-100 vh-100 d-flex justify-content-center align-items-center position-fixed top-0 start-0 bg-light">
         <div className="position-fixed top-50 start-50 spinner-border text-primary" role="status"></div>
-        {/* <object src={file.url} style={styles} width="100%" height="100%">
-          l
-        </object> */}
-        {console.log(file.url)}
         <iframe src={file.url} style={{zIndex: 1000}} height="100%" width="100%" title="pdf"/>
-        {/* <object width="900" height="900" data={`https://docs.google.com/gview?embedded=true&url=${file.url}`}></object> */}
       </div>
     );
   } else if (file.type.includes("image")) {
